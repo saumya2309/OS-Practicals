@@ -42,31 +42,16 @@ allocate("Worst Fit")
 import threading
 
 def calculate_sum():
-    global total
-
+    numbers = [10, 20, 30, 40, 50]
     total = sum(numbers)
+    print("Sum =", total)
 
-n = int(input("Enter number of elements: "))
+t1 = threading.Thread(target=calculate_sum)
 
-numbers = []
+t1.start()
+t1.join()
 
-for i in range(n):
-    num = int(input("Enter number: "))
-    numbers.append(num)
-
-total = 0
-
-# Create thread
-t = threading.Thread(target=calculate_sum)
-
-# Start thread
-t.start()
-
-# Wait for thread to finish
-t.join()
-
-print("Sum of numbers:", total)
-print("Thread execution completed")
+print("Main program completed")
 
 
 ```
