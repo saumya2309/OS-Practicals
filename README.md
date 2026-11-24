@@ -2,68 +2,38 @@
 12. best fit , worst fit
 ```
 
-blocks = [100, 500, 200, 300, 600]
 
+blocks = [100, 500, 200, 300, 600]
 processes = [212, 417, 112, 426]
 
-def first_fit():
+def allocate(method):
     memory = blocks.copy()
-
-    print("\nFirst Fit:")
+    print("\n", method)
 
     for p in processes:
-        for i in range(len(memory)):
+        allocated = False
+
+        if method == "First Fit":
+            indexes = range(len(memory))
+        elif method == "Best Fit":
+            indexes = sorted(range(len(memory)), key=lambda i: memory[i])
+        else:
+            indexes = sorted(range(len(memory)), key=lambda i: memory[i], reverse=True)
+
+        for i in indexes:
             if memory[i] >= p:
-                print(p, "KB allocated to block", i+1)
+                print(p, "KB allocated in block", memory[i], "KB")
                 memory[i] -= p
+                allocated = True
                 break
-        else:
+
+        if not allocated:
             print(p, "KB not allocated")
 
+allocate("First Fit")
+allocate("Best Fit")
+allocate("Worst Fit")
 
-def best_fit():
-    memory = blocks.copy()
-
-    print("\nBest Fit:")
-
-    for p in processes:
-        best = -1
-
-        for i in range(len(memory)):
-            if memory[i] >= p:
-                if best == -1 or memory[i] < memory[best]:
-                    best = i
-
-        if best != -1:
-            print(p, "KB allocated to block", best+1)
-            memory[best] -= p
-        else:
-            print(p, "KB not allocated")
-
-
-def worst_fit():
-    memory = blocks.copy()
-
-    print("\nWorst Fit:")
-
-    for p in processes:
-        worst = -1
-
-        for i in range(len(memory)):
-            if memory[i] >= p:
-                if worst == -1 or memory[i] > memory[worst]:
-                    worst = i
-
-        if worst != -1:
-            print(p, "KB allocated to block", worst+1)
-            memory[worst] -= p
-        else:
-            print(p, "KB not allocated")
-
-
-first_fit()
-best_fit()
-worst_fit()
 ```
 
 11. sum of N numbers
